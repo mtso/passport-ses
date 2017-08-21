@@ -1,7 +1,16 @@
 {
   "name": "passport-ses",
   "version": "0.0.1",
-  "description": "Password-less email authentication with AWS SES for Passport.",
+  "description": "Password-less AWS SES email authentication strategy for Passport.",
+  "keywords": [
+    "passport",
+    "ses",
+    "passwordless",
+    "email",
+    "aws",
+    "authentication",
+    "auth"
+  ],
   "dependencies": {
     "aws-sdk": "^2.101.0",
     "passport-strategy": "^1.0.0",
