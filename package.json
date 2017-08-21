@@ -1,0 +1,18 @@
+{
+  "name": "passport-ses",
+  "version": "0.0.1",
+  "description": "Password-less email authentication with AWS SES for Passport.",
+  "dependencies": {
+    "aws-sdk": "^2.101.0",
+    "passport-strategy": "^1.0.0",
+    "url-parse": "^1.1.9"
+  },
+  "author": {
+    "name": "Matthew Tso"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mtso/passport-ses.git"
+  },
+  "license": "MIT"
+}
