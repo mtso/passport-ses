@@ -10,7 +10,7 @@ var User = {
     query = query || {}
     var users = [
       {email: 'test1@example.com', username: 'testuser1'},
-      {email: 'test2@example.com', username: 'testuser2'}
+      {email: 'test2@example.com', username: 'testuser2'},
     ]
     for (var i = 0; i < users.length; i++) {
       if (users[i].email === query.email) {
@@ -22,12 +22,12 @@ var User = {
   }
 }
 
-passport.use('email', new EmailStrategy({
+passport.use('ses', new SESStrategy({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
   region: process.env.AWS_REGION,
   source: process.env.FROM_EMAIL,
-  hostname: 'localhost:3750',
+  hostname: 'https://test-simple.glitch.me',
 }, function(email, next) {
   User.findOne({ email }, function(err, user) {
     if (err) { return next(err) }
@@ -58,7 +58,7 @@ app.use(passport.initialize())
 
 app.use(passport.session())
 
-app.get('/email', passport.authenticate('email', {
+app.get('/auth/ses', passport.authenticate('ses', {
   failureRedirect: '/fail',
   successRedirect: '/',
   emailSentRedirect: '/check-email',
@@ -72,7 +72,7 @@ app.get('/', isAuthenticated, (req, res) => {
 
 app.get('/login', (req, res) => res.status(200).send(`
   <html><body>
-    <form action='/email' method='GET'>
+    <form action='/auth/ses' method='GET'>
       <input type='email' name='email' placeholder='Email' />
       <input type='submit' />
     </form>
@@ -88,12 +88,11 @@ app.get('/fail', (req, res) => res.status(400).send('Fail'))
 
 function isAuthenticated(req, res, next) {
   if (!req.user) {
-    return res.redirect('/')
+    return res.redirect('/login')
   }
   next()
 }
 
-// listen for requests :)
 var listener = app.listen(process.env.PORT || 3750, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
